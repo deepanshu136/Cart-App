@@ -12,6 +12,10 @@ class CartItem extends React.Component{
             img:''
         }
     }
+    increaseQuantity = () =>{
+        this.setState({qty:this.state.qty+1})
+        console.log('this',this.state);
+    }
     render(){
         const{price,title,qty}=this.state;
         return(
@@ -32,7 +36,7 @@ class CartItem extends React.Component{
 
                <div className="cart-item-actions" style={{padding:2}}>
                  {/* Buttons */}
-               <button className="action-icons"><FaPlus/></button> 
+               <button className="action-icons" onClick={this.increaseQuantity}><FaPlus/></button> 
                <button className="action-icons"><FaMinus/></button>
                <button className="action-icons"><FaTrash/></button>
                  
