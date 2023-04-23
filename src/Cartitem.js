@@ -11,10 +11,41 @@ class CartItem extends React.Component{
             qty:1,
             img:''
         }
+        // this.testing();
     }
+
+    // testing(){
+    //     const promise= new Promise((resolve,reject)=>{
+    //         setTimeout(()=>{
+    //             resolve('done');
+    //     },5000);
+    // })
+    // promise.then(()=>{
+    //     this.setState({qty:this.state.qty+1});
+
+
+    //     console.log('state',this.state);
+    // })
+    // }
+
     increaseQuantity = () =>{
-        this.setState({qty:this.state.qty+1})
-        console.log('this',this.state);
+       this.setState((prevState)=>{
+         return{
+            qty:prevState.qty+1
+         }
+        });
+    }
+    decreaseQuantity = () =>{
+        const {qty}=this.state;
+
+        if(qty===0){
+            return;
+        }
+        this.setState((prevState)=>{
+            return{
+                qty:prevState.qty-1
+            }
+        });
     }
     render(){
         const{price,title,qty}=this.state;
@@ -37,7 +68,7 @@ class CartItem extends React.Component{
                <div className="cart-item-actions" style={{padding:2}}>
                  {/* Buttons */}
                <button className="action-icons" onClick={this.increaseQuantity}><FaPlus/></button> 
-               <button className="action-icons"><FaMinus/></button>
+               <button className="action-icons" onClick={this.decreaseQuantity}><FaMinus/></button>
                <button className="action-icons"><FaTrash/></button>
                  
                 </div>
