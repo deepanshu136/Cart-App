@@ -1,6 +1,7 @@
 import React from "react";
 import {FaPlus,FaMinus,FaTrash} from 'react-icons/fa';
 
+
 class CartItem extends React.Component{
     // addidng state to the component
     constructor(){
