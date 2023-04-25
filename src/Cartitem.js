@@ -3,41 +3,6 @@ import {FaPlus,FaMinus,FaTrash} from 'react-icons/fa';
 
 
 class CartItem extends React.Component{
-    // addidng state to the component
-
-    // testing(){
-    //     const promise= new Promise((resolve,reject)=>{
-    //         setTimeout(()=>{
-    //             resolve('done');
-    //     },5000);
-    // })
-    // promise.then(()=>{
-    //     this.setState({qty:this.state.qty+1});
-
-
-    //     console.log('state',this.state);
-    // })
-    // }
-
-    increaseQuantity = () =>{
-       this.setState((prevState)=>{
-         return{
-            qty:prevState.qty+1
-         }
-        });
-    }
-    decreaseQuantity = () =>{
-        const {qty}=this.state;
-
-        if(qty===0){
-            return;
-        }
-        this.setState((prevState)=>{
-            return{
-                qty:prevState.qty-1
-            }
-        });
-    }
     render(){
         console.log('this.props',this.props);
         const{price,title,qty}=this.props.product;
@@ -59,8 +24,8 @@ class CartItem extends React.Component{
 
                <div className="cart-item-actions" style={{padding:2}}>
                  {/* Buttons */}
-               <button className="action-icons" onClick={this.increaseQuantity}><FaPlus/></button> 
-               <button className="action-icons" onClick={this.decreaseQuantity}><FaMinus/></button>
+               <button className="action-icons" onClick={()=> this.props.onIncreaseQuantity(this.props.product)}><FaPlus/></button> 
+               <button className="action-icons" onClick={()=>this.props.onDecreaseQuantity(this.props.product)}><FaMinus/></button>
                <button className="action-icons"><FaTrash/></button>
                  
                 </div>
