@@ -6,6 +6,7 @@ class CartItem extends React.Component{
     render(){
         console.log('this.props',this.props);
         const{price,title,qty}=this.props.product;
+        
         return(
         <div className="cart-item">
             <div className="left-block">
@@ -26,7 +27,7 @@ class CartItem extends React.Component{
                  {/* Buttons */}
                <button className="action-icons" onClick={()=> this.props.onIncreaseQuantity(this.props.product)}><FaPlus/></button> 
                <button className="action-icons" onClick={()=>this.props.onDecreaseQuantity(this.props.product)}><FaMinus/></button>
-               <button className="action-icons"><FaTrash/></button>
+               <button className="action-icons" onClick={()=>this.props.onDeleteProduct(this.props.product.id)}><FaTrash/></button>
                  
                 </div>
 

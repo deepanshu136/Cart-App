@@ -68,7 +68,7 @@ handleDecreaseQuantity=(product)=>{
   console.log("decrease the qty",product);
   const{products}=this.state;
   const index=products.indexOf(product);
-  if (products[index].qty==0){
+  if (products[index].qty===0){
     return 
   }
   else
@@ -77,6 +77,14 @@ handleDecreaseQuantity=(product)=>{
     products:products
   })
 }
+
+ handleDeleteProduct=(id)=>{
+  const{products}=this.state;
+  const items=products.filter((item)=>item.id!==id);//here this will return an array of product whose id is not equal to id passed
+  this.setState({
+    products:items
+  })
+ }
   
   render(){
     const{products}=this.state;
@@ -90,6 +98,7 @@ handleDecreaseQuantity=(product)=>{
             key={product.id}
             onIncreaseQuantity={this.handleIncreaseQuantity}
             onDecreaseQuantity={this.handleDecreaseQuantity}
+            onDeleteProduct={this.handleDeleteProduct}
             />)
         })}
     </div>
