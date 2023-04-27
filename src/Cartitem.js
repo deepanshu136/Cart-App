@@ -6,11 +6,12 @@ class CartItem extends React.Component{
     render(){
         console.log('this.props',this.props);
         const{price,title,qty}=this.props.product;
+        const {product}=this.props;
         
         return(
         <div className="cart-item">
             <div className="left-block">
-               <img style={Styles.image}/>
+               <img style={Styles.image} src={product.img}/>
             </div>
 
             <div className="right-block">
