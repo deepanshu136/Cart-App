@@ -3,23 +3,31 @@ import {FaCartPlus} from 'react-icons/fa';
 
 const Navbar = (props) =>{
     return (
+       
       <div style={styles.nav}>
+       
         <div style={styles.cartIconContainer}>
         <button style={styles.cartIcon} ><FaCartPlus/> </button>  
           <span style={styles.cartCount}>{props.count}</span>
         </div>
+        
       </div>
+    
     );
   }
   
   const styles = {
     cartIcon: {
       height: 32,
-      marginRight: 20
+      marginRight: 25
     },
+  
     nav: {
-      height: 70,
-      background: '#4267b2',
+      marginTop:8,
+      height: 60,
+      borderRadius:99,
+      boxShadow: '0px 0px 2px 3px #F4AAB9',
+      background: '	#89CFEF',
       display: 'flex',
       justifyContent: 'flex-end',
       alignItems: 'center'
@@ -34,7 +42,8 @@ const Navbar = (props) =>{
       position: 'absolute',
       right: 0,
       top: -9
-    }
+    },
+   
   };
   
   

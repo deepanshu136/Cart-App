@@ -5,11 +5,14 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* background-color:  rgba(249, 204, 120, 0.648); */
+  background-color: rgb(16, 16, 16);
 }
 
 .cart-item{
   display: inline-flex;
   margin: 5px 20px;
+  /* box-shadow: 0px 0px 3px 2px rgb(188, 162, 230); */
 }
 
 .cart-item .right-block {
@@ -19,12 +22,14 @@ body {
   margin-top: 20px;
 }
 .action-icons {
-  height: 25px;
-  width: 25px;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
   margin-right: 10px;
 }
 .action-icons:hover {
-  background-color: #eabfbf;
+  box-shadow: 0px 0px 3px 2px #ec976fee ;
+  background-color: #eb7e4c;
   cursor: pointer;
 }
 

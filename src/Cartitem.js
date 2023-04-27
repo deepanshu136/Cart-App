@@ -41,10 +41,12 @@ class CartItem extends React.Component{
 
 const Styles={
     image:{
+        marginTop:4,
         height:110,
         width:110,
         borderRadius:4,
-        background:'#FCF9BF'
+        background:'#FCF9BF',
+        boxShadow: '0px 0px 3px 2px rgb(188, 162, 230)'
     }
 }
 export default CartItem;
