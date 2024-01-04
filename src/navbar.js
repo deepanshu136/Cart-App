@@ -25,7 +25,7 @@ const Navbar = (props) =>{
     nav: {
       marginTop:8,
       height: 60,
-      borderRadius:99,
+      // borderRadius:0,
       boxShadow: '0px 0px 2px 3px #F4AAB9',
       background: '	#89CFEF',
       display: 'flex',

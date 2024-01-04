@@ -1,56 +1,75 @@
 import React from 'react';
-
 import Cart from './cart';
 import Navbar from './navbar';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
+
 class App extends React.Component {
  
   constructor(){
     super();
     this.state={
-        products:[
-          {
-            price:20000,
-            title:'Mobile Phone',
-            qty:1,
-            img:'https://images.unsplash.com/photo-1589492477829-5e65395b66cc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80',
-            id:1
-          },
-
-          {
-            price:1999,
-            title:'Watch',
-            qty:1,
-            img:'https://images.unsplash.com/photo-1524805444758-089113d48a6d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=388&q=80',
-            id:2
-          },
-
-          {
-            price:500,
-            title:'Head Phone',
-            qty:1,
-            img:'https://plus.unsplash.com/premium_photo-1679513691474-73102089c117?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=813&q=80',
-            id:3
-          },
-
-          {
-            price:1999,
-            title:'Speaker',
-            qty:1,
-            img:'https://images.unsplash.com/photo-1545454675-3531b543be5d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
-            id:4
-          },
-
-          {
-            price:2999,
-            title:'Denim',
-            qty:1,
-            img:'https://images.unsplash.com/photo-1605518216938-7c31b7b14ad0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1009&q=80',
-            id:5
-          },
-
-        ]
+        products:[],
+        loading:true
     }
     // this.testing();
+}
+
+
+componentDidMount (){
+firebase.initializeApp({
+  apiKey: "AIzaSyD4xLJGUxJSdDPKZTueOw0nr8T1muNdaYU",
+  authDomain: "cart-7a4bc.firebaseapp.com",
+  projectId: "cart-7a4bc",
+});
+  // firebase
+  //  .firestore()
+  //  .collection('products')
+  //  .get()
+  //  .then((snapshot)=>{
+  //   console.log(snapshot);
+
+  //   snapshot.docs.map((doc)=>{
+  //      console.log(doc.data())
+  //   });
+   
+  //   const products=snapshot.docs.map((doc)=>{
+  //     const data=doc.data();
+
+  //     data['id']=doc.id;
+  //     return data;
+  //   })
+  //   this.setState({products,
+  //                  loading:false })
+     
+  //  })
+
+  firebase
+   .firestore()
+   .collection('products')
+   .orderBy('price','asc')
+   .onSnapshot((snapshot)=>{
+    console.log(snapshot);
+
+    snapshot.docs.map((doc)=>{
+       console.log(doc.data())
+    });
+   
+    const products=snapshot.docs.map((doc)=>{
+      const data=doc.data();
+
+      data['id']=doc.id;
+      return data;
+    })
+    this.setState({products,
+                   loading:false })
+     
+   })
+
+  
+  
+    
 }
 
 handleIncreaseQuantity=(product)=>{
@@ -58,11 +77,26 @@ console.log("increase the qty",product);
 const{products}=this.state;
 const index=products.indexOf(product);
 
-products[index].qty+=1;
+// products[index].qty+=1;
 
-this.setState({
-  products:products
-})
+// this.setState({
+//   products:products
+// })
+
+const docRef=firebase.firestore().collection('products').doc(products[index].id);
+
+docRef
+  .update({
+    qty:products[index].qty+1
+  })
+  .then(()=>{
+    console.log('document is updated');
+  })
+  .catch((error)=>{
+    console.log('Error',error);
+  })
+
+
 }
 
 handleDecreaseQuantity=(product)=>{
@@ -72,21 +106,42 @@ handleDecreaseQuantity=(product)=>{
   if (products[index].qty===0){
     return 
   }
-  else
-  products[index].qty-=1
-  this.setState({
-    products:products
-  })
+  // else
+  // products[index].qty-=1
+  // this.setState({
+  //   products:products
+  // })
+  const docRef=firebase.firestore().collection('products').doc(products[index].id);
+
+  docRef
+   .update({
+    qty:products[index].qty-1
+   })
+   .then(()=>{
+    console.log('document has been updated');
+   })
+   .catch((error)=>{
+    console.log('Error :',error);
+   })
 }
 
  handleDeleteProduct=(id)=>{
   const{products}=this.state;
-  const items=products.filter((item)=>item.id!==id);//here this will return an array of product whose id is not equal to id passed
-  this.setState({
-    products:items
-  })
- }
+  // const items=products.filter((item)=>item.id!==id);//here this will return an array of product whose id is not equal to id passed
+  // this.setState({
+  //   products:items
+  // })
+  const docRef=firebase.firestore().collection('products').doc(id);
 
+  docRef
+   .delete()
+   .then(()=>{
+    console.log("Deleted Sucessfully");
+   })
+   .catch((error)=>{
+    console.log("Error :",error);
+   }) 
+ }
  getCartCount=()=>{
   const {products}=this.state;
 
@@ -104,23 +159,48 @@ handleDecreaseQuantity=(product)=>{
  
   let cartTotal=0;
   products.map((product)=>{
+    if(product.qty>0){
     cartTotal=cartTotal+product.price*product.qty
-  })
+    }
+   return '';
+  });
   return cartTotal;
  }
 
+ addProduct =()=>{
+  
+  firebase
+   .firestore()
+   .collection('products')
+   .add({
+       img:'',
+       price:50000,
+       qty:1,
+       title:'Washing Machine'
+   })
+   .then((docRef)=>{
+    console.log('Product has been added',docRef);
+   }) 
+
+   .catch((error)=>{
+    console.log('Error :',error);
+   })
+ }
+
   render(){
-    const{products}=this.state;
+    const{products ,loading}=this.state;
   return (
     <div className="App">
 
       <Navbar count={this.getCartCount()}/>
+      {/* <button onClick={this.addProduct} style={{marginTop: 8,marginLeft:16,marginBottom:4,fontSize:15, backgroundColor: 'Lightyellow', borderRadius:4}}>Add a product</button> */}
       <Cart 
       products={products}
       onIncreaseQuantity={this.handleIncreaseQuantity}
       onDecreaseQuantity={this.handleDecreaseQuantity}
       onDeleteProduct={this.handleDeleteProduct}
       />
+      {loading && <h1>Loading Products ...</h1>}
       <div style={{fontSize: 20,padding:20,color:'#FFFFFF'}}> TOTAL = {this.getCartTotal()}</div>
     </div>
   );
